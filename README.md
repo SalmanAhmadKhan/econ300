@@ -1,0 +1,2 @@
+# econ300
+Econometrics

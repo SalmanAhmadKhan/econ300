@@ -50,17 +50,21 @@ save temp, replace
 
 /* subpart 3 */
 
-import delimited "$path/case.csv", encoding(ISO-8859-1) clear
+import delimited "case.csv", encoding(ISO-8859-1) clear
 
 merge m:1 person_id using temp /* merge demographics with cases */
 
 
 /* part iv) creating age variable */
 g arrest_yr= substr(arrest_date,1,4)
-g birth_yr=substr(bdate,1,4)
+g birth_yr=substr(bdate,-2,2)
 
 destring arrest_yr, replace
 destring birth_yr, replace 
+
+replace birth_yr= birth_yr + 1900 if birth_yr > 40 
+replace birth_yr= birth_yr + 2000 if birth_yr < 5
+
 
 g age= arrest_yr - birth_yr
 
